@@ -14,7 +14,7 @@ import java.util.List;
 public class WebShopServlet extends HttpServlet {
 
     private List<Item> items = new ArrayList<>();
-    public static ItemStore store = new ItemStore();
+    public static ItemStore store;
 
     public WebShopServlet() {
         initItems();
@@ -79,6 +79,8 @@ public class WebShopServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+
+        store = new ItemStore(request);
 
         response.setIntHeader("Refresh", 60);
 

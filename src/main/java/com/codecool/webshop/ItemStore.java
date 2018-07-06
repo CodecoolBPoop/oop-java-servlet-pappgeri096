@@ -1,34 +1,37 @@
 package com.codecool.webshop;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class ItemStore {
+public class ItemStore extends HttpServlet {
 
-    private List<Item> items;
+    public HttpSession session;
 
-    public ItemStore() {
-        items = new ArrayList<>();
+    public ItemStore(HttpServletRequest request) {
+        session = request.getSession();
+        if(session.isNew())
+            session.setAttribute("items",new ArrayList<Item>());
     }
 
     public void add(Item item) {
-        items.add(item);
+       getItems().add(item);
     }
 
     public void remove(int id) {
+
         for(int i = 0; i < getItems().size(); i++){
             if(getItems().get(i).getId() == id){
-                items.remove(i);
+                getItems().remove(i);
                 break;
             }
         }
     }
 
     public List<Item> getItems() {
-       return items;
+       return (List<Item>) session.getAttribute("items");
     }
 
 
